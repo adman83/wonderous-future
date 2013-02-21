@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Suggestions | pdapp</title>
+		{% include 'includes/header.html' %}
+		<div id="fadescreen"></div>
+		<script type="text/javascript">document.getElementById("suggestions").style.color="black";</script>
+		<div id='content'>
+			<h2>You are currently using a development version of this site, which means you get to help influence how it grows; 
+				you can submit your own suggestion for the site or you can vote for other people's suggestions. Thanks for your help!</h2>
+		<div class="suggestion">
+			<form method="post" action="/suggestions">
+				<table>
+					<tr>
+						<td>
+							<img alt="author" src="{{user.pictureurl}}" class="comment_picture">
+						</td>
+						<td style="width:100%">
+							<textarea class="" id="new_comment"name="suggestion" value="" style="width:100%" rows="5"></textarea>
+						</td>
+					</tr>
+				</table>
+					<button type="submit" id="add_button">add suggestion</button>
+			</form>
+		</div>
+		<hr>
+		{% include 'includes/render_suggestions.html' %}
+		</div>
+		{% include 'includes/footer.html' %}	
+	</body>
+	
+</html>

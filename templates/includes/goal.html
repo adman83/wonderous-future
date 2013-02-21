@@ -1,0 +1,79 @@
+{% if goal %}
+	<div class="goal" id = "{{type}}">
+		<h2>{{type}} Term Goals</h2>
+		<div id="edit" onclick="focusDiv('{{type}}');enableTextEdit('{{type}}_description');showElement('{{type}}_hidden')">Edit</div>
+		<form method="post" action="/update_goal/{{type}}/{{goal.key().id()}}">
+			<textarea id="{{type}}_description" name="{{type}}_description" disabled="true" style="width:100%;" >{{goal.description}}</textarea>
+			<div class="hidden_element" id="{{type}}_hidden">
+				<button type="submit" id="update_button">update {{type}} Term Goal</button>
+				<span class="cancel" onclick="location.href='/'">Cancel</span>	
+			</div>
+		</form>	
+	</div>
+	
+	<div class="objective_set" id="{{type}}_objectives">
+		{{user.get_active_objectives(user, type, ["active"]) | safe}}
+		<div class="add" onclick="focusDiv('new_{{type}}_objective');showElement('new_{{type}}_objective')">+ add a {{type}} Term Objective</div>
+	</div>
+	<div class="objective_set">
+		<div class="objective" id="new_{{type}}_objective" style="display:none">
+			
+			<b>Add a new {{type}} term objective:</b>
+			<div class="error" id="{{type}}_error_message"></div>
+			
+			<form method="post" action="/update_objective/{{type}}/0">
+				<table>
+					<tr>
+						<td>Title*: </td>
+						<td><input type="text" name="obj_title" value=""/><span style="color:gray;font-size:12px">(This cannot be edited Later)</span></td></td>
+					</tr>
+					<tr>
+						<td>Description*: </td>
+						<td style="width:100%"><textarea name="obj_description" value="" style="width:100%"></textarea></td>
+					</tr>
+					<tr>
+						<td>Due Date*:</td>
+						<td><input type="text" name="obj_due_date" value=""/><span style="color:gray;font-size:12px">(YYYY-MM-DD)</span></td>
+					</tr>
+					<tr>
+						<td>Status:	</td>
+						<td><select name="obj_status">
+						  <option value="not started">Not Started</option>
+						  <option value="in progress">In Progress</option>
+						  <option value="complete">Complete</option>
+						  <option value="cancelled">Cancelled</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td>Traffic Light:</td>
+						<td><select name="obj_traffic_light">
+						  <option value="green">Green</option>
+						  <option value="orange">Amber</option>
+						  <option value="red">Red</option>
+						</select></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><button type="submit" id="">add this objective</button>
+							<span class="cancel" onclick="location.href='/'">Cancel</span>
+						</td>
+					</tr>
+				</table>
+				<br>
+				
+			</form>
+			
+		</div>
+	</div>
+{% else %}
+	<div class="goal" id = "{{type}}">
+		<h2>{{type}} Term Goals</h2>
+			<form method="post" action="/update_goal/{{type}}/0">
+				<textarea id="{{type}}_description" name="{{type}}_description" style="width:100%;" onclick="focusDiv('{{type}}');showElement('{{type}}_hidden')" onfocus="value=''" title="write a description of your {{type}} term goals">write a description of your {{type}} term goals</textarea>
+				<div class="hidden_element" id="{{type}}_hidden">
+					<button type="submit" id="add_button">add {{type}} Term Goal to records</button>
+					<span class="cancel" onclick="location.href='/'">Cancel</span>	
+				</div>
+			</form>
+		</div>
+{% endif %}

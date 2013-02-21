@@ -1,0 +1,108 @@
+<div class="objective" id="{{o.key().id()}}" style="border:1px solid {{o.traffic_light}}">
+		
+
+	<div class="objective_title" name="obj_title"/>{{o.title}}</div>
+	<div id="edit" onclick="focusDiv('{{o.key().id()}}');enableObjectiveEdit('{{o.key().id()}}');showElement('{{o.key().id()}}_hidden')">Edit or Comment</div>
+		<form method = "post" action="/update_objective/{{o.type}}/{{o.key().id()}}">
+			<table>
+					<td>
+						<div class="objective_property">Due:</div>
+						<input type="text" disabled id="{{o.key().id()}}_due_date" class="objective_property" name="obj_due_date" value="{{o.due_date}}"/>
+					</td>
+					<td>
+						<div class="objective_property">Status: </div>
+						<select disabled id="{{o.key().id()}}_status" name="obj_status" class="">
+							{% if o.status == "not started" %}
+								  <option selected value="not started">Not Started</option>
+								  <option value="in progress">In Progress</option>
+								  <option value="complete">Complete</option>
+								  <option value="cancelled">Cancelled</option>
+								{% elif o.status =="in progress" %}
+									<option value="not started">Not Started</option>
+									<option selected value="in progress">In Progress</option>
+									<option value="complete">Complete</option>
+									<option value="cancelled">Cancelled</option>
+								{% elif o.status =="complete" %}
+									<option value="complete">Not Started</option>
+									<option value="in progress">In Progress</option>
+									<option selected value="complete">Complete</option>
+									<option value="cancelled">Cancelled</option>
+								{% elif o.status =="cancelled" %}
+									<option value="not started">Not Started</option>
+									<option value="in progress">In Progress</option>
+									<option value="complete">Complete</option>
+									<option selected value="cancelled">Cancelled</option>	
+							{% endif %}
+						</select>
+					</td>
+					<td>
+						<div class="objective_property">Traffic Light: </div>
+						<select disabled id="{{o.key().id()}}_traffic_light" name="obj_traffic_light" class="">
+							{% if o.traffic_light == "green" %}
+								<option selected value="green">Green</option>
+								<option value="orange">Amber</option>
+								<option value="red">Red</option>
+							{% elif o.traffic_light == "orange" %}
+								<option value="green">Green</option>
+								<option selected value="orange">Amber</option>
+								<option value="red">Red</option>
+							{% elif o.traffic_light == "red" %}
+								<option value="green">Green</option>
+								<option value="orange">Amber</option>
+								<option selected value="red">Red</option>
+							{% endif %}
+						</select>
+					</td>
+				</tr>
+			</table>
+			<div class="objective_property">Description:</div>
+			<textarea disabled class="" id="{{o.key().id()}}_description"name="obj_description" value="" style="width:99%">{{o.description}}</textarea>
+			<div class="hidden_element" id="{{o.key().id()}}_hidden">
+				
+				<hr>
+				<div class="objective_property">Objective Type:</div>
+				<select name="obj_type" class="">
+					{% if o.type == "Short" %}
+							<option selected value="Short">Short</option>
+							<option value="Medium">Medium</option>
+							<option value="Long">Long</option>
+					{% elif o.type =="Medium" %}
+							<option value="Short">Short</option>
+							<option selected value="Medium">Medium</option>
+							<option value="Long">Long</option>
+					{% elif o.type =="Long" %}
+							<option value="Short">Short</option>
+							<option value="Medium">Medium</option>
+							<option selected value="Long">Long</option>
+					{% endif %}
+				</select>
+				<div class="objective_property" >Display option:</div>
+				<select name="obj_display">
+					{% if o.display == "active" %}
+						<option selected value="active">Plan and Review</option>
+						<option value="review">Review only</option>
+						<option value="archive">Archive</option>
+					{% elif o.display == "review" %}
+						<option value="active">Plan and Review</option>
+						<option selected value="review">Review only</option>
+						<option value="archive">Archive</option>
+					{% elif o.display == "archive" %}
+						<option value="active">Plan and Review</option>
+						<option value="review">Review only</option>
+						<option selected value="archive">Archive</option>
+					{% endif %}
+				</select>
+				<br>
+				<div class="objective_property" >Add an optional review comment</div>
+				<textarea class="" id="{{o.key().id()}}_comment"name="obj_comment" value="" style="width:99%"></textarea>
+				
+				<button type="submit" id="add_button">update this objective</button>
+				<span class="cancel" onclick="location.href='/'">Cancel</span><br><br>
+								
+			</div>
+		</form>
+	</div>
+	<div class="comments">
+		{{o.get_comments(user, o.key()) | safe}}
+	</div>
+

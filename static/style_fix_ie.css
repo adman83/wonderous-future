@@ -1,0 +1,27 @@
+.navigation_button,
+.navigation_bar,
+.footer_info,
+.help_info
+{
+	zoom: 1;
+	*display:inline;
+}
+
+#browser{
+	display:block;
+	padding-left:40px;
+	color:gray;
+}
+
+#logo, #title{
+	*display:inline;
+}
+
+.title_share{
+	display:inline;
+	zoom:1;
+}
+
+.float_clear{
+	clear:both;
+}

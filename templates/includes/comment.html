@@ -1,0 +1,14 @@
+<div class="comment" id="c.key().id()" onmouseover="unhideElement('{{c.key().id()}}_delete')" onmouseout="hideElement('{{c.key().id()}}_delete')">
+	<img alt="author" src="{{c.author.pictureurl}}" class="comment_picture"> {{c.comment}} || {{c.author.username}} || {{c.date_created.strftime("%H:%M, %d %b %Y")}}
+	{% if user.key() == c.author.key() %}
+		<button class="delete" style="margin-top:2px" id="{{c.key().id()}}_delete" onclick="unhideElement('{{c.key().id()}}_sure');hideElement('{{c.key().id()}}_delete')">Delete</button>
+		<form method="post" action="/delete_comment/{{c.key()}}">
+			
+			<button type="submit" class="delete" style="margin-top:2px" id="{{c.key().id()}}_sure" onmouseout="hideElement('{{c.key().id()}}_sure')">
+				Sure? Click again to delete</button>
+		</form>
+	{% endif %}
+</div>
+	
+
+

@@ -1,0 +1,22 @@
+<div id="future" class="future">
+	<h2>My Envisioned Future</h2>
+	{% if future %}
+	<div id="edit" onclick="focusDiv('future');enableTextEdit('future_description');showElement('future_update')">Edit</div>
+	<form method="post" action="/update_future/{{future.key().id()}}">
+		<textarea id="future_description" name="future" disabled="true" style="width:100%;" rows="5" >{{future.description}}</textarea>
+		<div class="hidden_element" id="future_update">
+			<button type="submit" id="future_update_button">update</button>
+			<span class="cancel" onclick="location.href='/'">Cancel</span>
+		</div>
+	</form>
+	{% else %}
+	<form method="post" action="/update_future/0">
+		<textarea id="future_description" name="future" style="width:100%;" rows="5" onclick="focusDiv('future');showElement('future_add')" onfocus="value=''">write a description of what you want your future to look like. click the help tag (+?) above to see suggestions. </textarea>
+		<button type="submit" id="future_add_button" style="display:none">add</button>
+		<div class="hidden_element" id="future_add">
+			<button type="submit" id="future_add_button">submit</button>
+			<span class="cancel" onclick="location.href='/'">Cancel</span>
+		</div>
+	</form>
+	{% endif %}
+</div>

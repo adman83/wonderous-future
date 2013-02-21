@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Profile | pdapp</title>
+		{% include 'includes/header.html' %}
+		<div id="fadescreen"></div>
+		<div id='content'>
+			<h1>Profile Page</h1>
+		<div class="profile_info" id="preferred_competency_framework">
+			<h2>Preferred Competency Framework</h2>
+				<hr> 
+				{% if user.preferred_framework %}
+					{{user.preferred_framework.title}}
+				{% else %}
+					No framework selected
+				{% endif %}
+				<div id="edit" onclick="focusDiv('preferred_competency_framework');showElement('update_preferred_framework')">Edit</div>
+				<br><br>
+				<div class="hidden_element" id="update_preferred_framework">
+					<form method="post" action="/profile">
+						<select name="framework_key">
+							<option value="">remove preferred framework</option>
+							{% for f in frameworks %}
+								<option value="{{f.key()}}">{{f.title}}</option>
+							{% endfor %}
+						</select>
+						<br><br>
+						<button type="submit" name="update_preferred_framework" value="update_preferred_framework">update preferred framework</button>
+						<span class="cancel" onclick="location.href='/profile'">Cancel</span>
+					</form>
+				</div>
+		</div>
+			
+			
+		</div>
+		{% include 'includes/footer.html' %}
+	</body>
+</html>

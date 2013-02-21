@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Review | pdapp</title>
+		{% include 'includes/header.html' %}
+		<div id="fadescreen"></div>
+		<script type="text/javascript">document.getElementById("review").style.color="black"</script>
+		<div id='content'>
+			<div><h2>Select how you want to review your evidence by clicking one of the following options:</h2></div>
+			
+			<!-- <select onchange="displayoption(value)">
+				<option value="objectives">Objectives</option>
+				{% if user.preferred_framework %}
+					<option value="competencies">{{user.preferred_framework.title}} Competencies</option>
+				{% else %}
+					<option disabled value="">no Preferred Framework Selected</option>
+				{% endif %}
+			</select> -->
+			<button onclick="location.href='/review?view=objectives'">objectives</button>
+			{% if user.preferred_framework %}
+				<button onclick="location.href='/review?view=competencies'">{{user.preferred_framework.title}}</button>	
+			{% else %}
+				<button disabled onclick="">no preferred competency framework selected</button>
+			{% endif %}
+			<button onclick="location.href='/review?view=archived_objectives'">archived objectives</button>
+			<button onclick="location.href='/review?view=all_evidence'">all evidence</button>
+			<br><br>
+			{% if view == "objectives" %}
+			<div id="display_by_objectives">
+				<table style="">
+					<tr>
+						<td class="review_column">Objectives</td>
+						<td class="review_column">Evidence</td>
+					</tr>
+					{% for o in objectives %}
+						<tr>
+							
+							<td class="review_row">
+<!-- 								{% include 'includes/objective.html' %} -->
+								<div id="{{o.key().id()}}" style="position:relative">
+									<div class="objective_title">{{o.title}}</div>
+								<div class="objective_property">|| Due Date: {{o.due_date}}</div>
+								<div class="objective_property">|| Status: {{o.status}}</div>
+								<br><br>
+								<div>{{o.description}}</div><br>
+								<div id="edit" onclick="focusDiv('{{o.key().id()}}');showElement('{{o.key().id()}}_hidden')">Edit display option</div>
+								<div class="hidden_element" id="{{o.key().id()}}_hidden">
+									<form method="post" action="/update_objective/display_option/{{o.key().id()}}">
+										<select name="obj_display">
+											{% if o.display == "active" %}
+												<option selected value="active">Plan and Review</option>
+												<option value="review">Review only</option>
+												<option value="archive">Archive</option>
+											{% elif o.display == "review" %}
+												<option value="active">Plan and Review</option>
+												<option selected value="review">Review only</option>
+												<option value="archive">Archive</option>
+											{% elif o.display == "archive" %}
+												<option value="active">Plan and Review</option>
+												<option value="review">Review only</option>
+												<option selected value="archive">Archive</option>
+											{% endif %}
+										</select>
+										<br><br>
+										<button type="submit" id="add_button">update this objective</button>
+										<span class="cancel" onclick="location.href='/review?view=objectives'">Cancel</span><br><br>
+									</form>
+									
+								</div>
+								
+								</div>
+								
+							</td>
+							<td class="review_row"> {{user.get_evidence_by_obj(user, o.key()) | safe}} </td>
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+			
+			{% elif view=="competencies" %}
+			<div id="display_by_competencies">
+				<table>
+					<tr>
+						<td class="review_column">Framework Competencies</td>
+						<td class="review_column">Guidance</td>
+						<td class="review_column">Evidence</td>
+					</tr>
+					{% for c in competencies %}
+						<tr>
+							
+							<td class="review_row">
+								<b>{{c.section}}.</b> {{c.description}}
+							</td>
+							<td class="review_row">
+								{{c.guidance}}
+							</td>
+							<td class="review_row"> 
+								{{user.get_evidence_by_frwk(user, c.key()) | safe}} 
+							</td>
+							
+						</tr>
+					{% endfor %}
+				</table>
+			</div>
+			{% elif view=="archived_objectives" %}
+				<table style="">
+					<tr>
+						<td class="review_column">Archived Objectives</td>
+					</tr>
+				{% for o in archive %}
+					<tr>
+						<td class="">
+							{% include 'includes/objective.html' %}
+						</td>
+					</tr>
+				{% endfor %}
+				</table>
+			{% elif view == "all_evidence" %}
+				<table style="">
+					<tr>
+						<td class="review_column">All Evidence</td>
+					</tr>
+				{% for e in evidence %}
+					<tr>
+						<td class="review_row">
+							{% include 'includes/evidence.html' %}
+						</td>
+					</tr>
+				{% endfor %}
+				</table>
+			{% endif %}
+		</div>
+		{% include 'includes/footer.html' %}
+	</body>
+</html>

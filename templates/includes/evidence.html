@@ -1,0 +1,33 @@
+<div class="evidence" id="{{e.key().id()}}">
+	<form method = "post" action="/update_evidence/{{e.key().id()}}">
+		<table>
+			<tr>
+				<td>
+					<div class="objective_title">{{e.title}}</div> 
+				</td>
+				<td>
+					<input disabled type="text" class="evidence_property" id="{{e.key().id()}}_experience_date" name="exp_date" value="{{e.experience_date}}"/>
+				</td>
+				<td>
+					<div id="edit" onclick="focusDiv('{{e.key().id()}}');enableEvidenceEdit('{{e.key().id()}}');showElement('{{e.key().id()}}_hidden')">Edit</div>
+				</td>
+				<td>
+					<div id="edit" style="position:absolute;right:5px;bottom:0;height:10px;padding:1px 3px;">last edited: {{e.date_edited.strftime("%H:%M %d %b, %Y")}}</div>
+				</td>
+			</tr>
+			<tr>
+				<td>(position at time)</td>
+			</tr>
+		</table>
+		<textarea disabled class="evidence_property" id="{{e.key().id()}}_details"name="evidence_details" value="" style="width:99%;height:100px">{{e.details}}</textarea>	
+		<div class="evidence_property" style="color:gray">list of associated skills will go here.</div>
+		<!-- 		<td>put this row(tr) in a skill.html file  and call it using render_skills.html (rendered by jinja from the main file)<br>
+					call it using: user.get_skills(user, e.key()) | safe
+				</td> -->
+		
+		<div class="hidden_element" id="{{e.key().id()}}_hidden"><br>
+			<button type="submit" id="add_button">update this evidence</button>
+			<span class="cancel" onclick="location.href='/review'">Cancel</span><br><br>
+		</div>
+	</form>
+</div>

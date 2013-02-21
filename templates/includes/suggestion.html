@@ -1,0 +1,41 @@
+<div class="suggestion" id="{{s.key().id()}}">
+	<table>
+		<tr>
+			<td>
+				<table>
+					{% if user.key() == s.author.key() %}
+						<form>
+							<tr><td><button class="vote_button" onclick="alert('Sorry, you cant vote on your own suggestion!')">vote up<br>({{s.up_votes}})</button></td></tr>
+							<tr><td class="sum_votes">{{s.sum_votes}}</td></tr>
+							<tr><td><button class="vote_button" onclick="alert('Sorry, you cant vote on your own suggestion!')">vote down<br>({{s.down_votes}})</button></td></tr>
+						</form>
+					{% else %}
+						<form method="post" action="/vote/{{s.author.key().id()}}/{{s.key().id()}}" >
+							<tr><td><button class="vote_button" name="vote_up" value="vote_up">vote up<br>({{s.up_votes}})</button>	</td></tr>
+							<tr><td class="sum_votes">{{s.sum_votes}}</td></tr>
+							<tr><td><button class="vote_button" name="vote_down" value="vote_down">vote down<br>({{s.down_votes}})</button></td></tr>
+						</form>
+					{% endif %}
+				</table>
+			</td>
+			<td>
+				<img alt="author" src="{{s.author.pictureurl}}" class="comment_picture">
+				{{s.author.username}}
+			</td>
+			<td style="width:100%;padding-left:20px;">
+					{{s.suggestion}}
+			</td>
+		</tr>
+	</table>
+	<div class="hidden_element" id="{{s.key().id()}}_hidden">
+	<form method="post" action="/comment/{{s.key()}}">
+		<textarea class="" id="{{s.key().id()}}_comment" name="comment" style="width:99%"></textarea>
+		<button type="submit" id="add_button">add comment</button>
+		<span class="cancel" onclick="location.href='/suggestions'">Cancel</span><br><br>
+	</form>
+	</div>
+	<div id="edit" onclick="focusDiv('{{s.key().id()}}');showElement('{{s.key().id()}}_hidden')">+ Add your own comment to what {{s.author.firstname}} wrote</div>
+</div>
+
+{{s.get_comments(user, s.key()) | safe}}
+

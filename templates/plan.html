@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Plan | pdapp</title>
+		{% include 'includes/header.html' %}
+		<div id="fadescreen"></div>
+		<script type="text/javascript">document.getElementById("plan").style.color="black";</script>
+		<div id='content'>
+			{% include 'includes/future.html' %}
+			{{user.get_goals(user, "Short") | safe}}
+			{{user.get_goals(user, "Medium") | safe}}
+			{{user.get_goals(user, "Long") | safe}}
+		</div>
+		{% include 'includes/footer.html' %}
+	
+	{% if have_error %}
+		<script type="text/javascript">focusDiv('new_{{error_type}}_objective');showElement('new_{{error_type}}_objective')</script>
+		<script type="text/javascript">objErrorMessage('{{error_type}}_error_message')</script>
+	{% endif %}
+	
+	</body>
+	
+</html>

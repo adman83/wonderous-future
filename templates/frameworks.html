@@ -1,0 +1,47 @@
+{{user.username}}: {{user.role}}
+<hr>
+<form method="post" action="/add_framework">
+	Add a Framework:
+	<table>
+		<tr>
+			<td>Discipline: <input type="text" name="framework_discipline"/></td>
+			<td>Organisation: <input type="text" name="framework_organisation"/></td>
+			<td>Framework Title: <input type="text" name="framework_title"/></td>
+		</tr>
+		<tr>
+			<td><button type="submit" name="add_framework" value="add_framework">Add Framework</button></td>
+			
+		</tr>
+	</table>
+	<hr>
+	Add a Competence:
+	<table>
+		<tr>
+			<td>
+			Parent Framework:<select name="parent">
+			{% for f in frameworks %}
+				<option value="{{f.key()}}">{{f.title}}</option>
+			{% endfor %}	
+			</td>
+		</tr>
+		
+		</select>
+		<tr>
+			<td>Section: <input type="text" name="section"/></td>
+			<td>Type: <select name="type">
+				<option value="heading">Heading</option>
+				<option value="competence">Competence</option>
+			</select></td>
+			<td>Description: <textarea style="height:150px;width:250px" name="description"></textarea></td>
+			<td>Guidance: <textarea style="height:150px;width:250px" name="guidance"></textarea></td>
+		</tr>
+		<tr>
+			<td><button type="submit" name="add_competence" value="add_competence">Add Competence</button></td>
+			
+		</tr>
+	</table>
+</form>
+<hr>
+{% for c in competencies %}
+	{{c.parent().title}}:{{c.section}}<br>
+{% endfor %}

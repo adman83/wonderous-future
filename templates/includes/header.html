@@ -1,0 +1,105 @@
+		<meta name="Description" content="PDapp - Personal and Professional Devlopment, Goal and Objective setting, Evidence record and Skills reviewing."/>
+		<meta name="Keyword" content="professional, personal, planning, development, goal, setting, objective, record, review, evidence, skills, competence"/>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+		<link rel="stylesheet" type="text/css" media="screen,print" href="static/style.css" />
+		<!--[if IE]>
+		  <link rel="stylesheet" type="text/css" media="screen,print" href="static/style_fix_ie.css" />
+		<![endif]-->
+		<link rel="SHORTCUT ICON" href="static/images/favicon.ico" /><!-- I used this to force the update on the favicon -->
+		{% include 'includes/analytics_tracking.html' %}
+		<script type="text/javascript" src="static/scripts.js"></script>
+		{% if user %}
+			<script type="text/javascript" src="http://platform.linkedin.com/in.js">
+			  api_key: mms7kn4f6wle
+			  scope:r_fullprofile
+			  authorize: true
+			</script>
+		{% else %}
+			<script type="text/javascript" src="http://platform.linkedin.com/in.js">
+			  api_key: mms7kn4f6wle
+			  scope:r_fullprofile r_emailaddress
+			  onLoad: onLinkedInLoad
+			  authorize: true
+			</script>
+		{% endif %}
+	</head>
+	<body>
+		<div id="title_bar">
+			<div class="title" id="logo" onclick="location.href='/'">pdapp</div>
+			<div class="title" id="title"  onclick="location.href='/'"> | Professional Development</div>
+			<div class='title_share'>
+				<div class="g-plusone" data-size="medium"></div>
+			</div>
+			<div class='title_share'>
+				<script type="IN/Share"></script>
+			</div>
+			<div class="float_clear"></div>
+		</div>
+		<div id="browser">It looks like you're using Internet Explorer so things might not work as expected! If you can, try using a standards compliant browser like <a href="http://www.google.com/chrome">Chrome</a> instead!</div>
+		<div class="user" id="user_bar">
+			
+			{% if user %}
+				{% if user.pictureurl %}
+					<div id="picture"><img src="{{user.pictureurl}}" alt="No Picture" width="60" height="60"></div>
+				{% else %}
+					<div id="picture"><img src="/static/images/no_pic.jpg" alt="No Picture" width="60" height="60"></div>
+				{% endif %}
+				<div id="name" title="click your name to see your profile page" onclick="location.href='/profile'">{{user.username}}</div>
+				<div id="logout" onClick="onLinkedInLogoutClick()">Sign out</div>
+			{% else %}
+				{% if username %}
+					<div id="picture"><img src="{{pictureurl}}" alt="No Picture" width="60" height="60"></div>
+					<div id="name">{{username}}</div>
+				{% else %}
+					<div id="picture"><img src="/static/images/no_pic.jpg" alt="No Picture" width="60" height="60"></div>
+					<div id="working">Waiting for connection...</div>
+				{% endif %}
+				<form style="display:inline-block;max-height:50px;" id="user_details_form" method="post" action="/register">
+					<script type="in/Login">
+						<input type="hidden" name="firstName" value="<?js= firstName ?>"/><br>
+						<input type="hidden" name="lastName" value="<?js= lastName ?>"/><br>
+						<input type="hidden" name="memberId" value="<?js= id ?>"/><br>
+						<input type="hidden" name="pictureUrl" value="<?js= pictureUrl ?>"/><br>
+					</script>
+					<script type="IN/MemberData" data-ids="me" data-fields="emailAddress">
+						<input type="hidden" name="emailAddress" value="<?js= $('me').emailAddress ?>"/>
+					</script>
+				</form>
+			{% endif %}
+		</div>
+		<div id="navigation_bar" class="navigation_bar">
+			<div id="plan" class="navigation_button" onclick="location.href='/plan'">Plan</div> - 
+			<div id="do" class="navigation_button" onclick="location.href='/do'">Do</div> - 
+			<div id="record" class="navigation_button" onclick="location.href='/record'">Record</div> - 
+			<div id="review" class="navigation_button" onclick="location.href='/review'">Review</div>
+			{% if user %}
+				 <div id="suggestions" class="navigation_button" style="position:absolute; right:0; font-size:36px" onclick="location.href='/suggestions'">[suggestions]</div>
+			{% endif %}
+		</div>
+		{% if user %}
+		<div class="help_bar_closed" id="help_bar">
+			<div class="help_tag" id="help_tag" onmouseover="highlightHelp()" onmouseout="lowlightHelp()" onclick="showHelp()">+?</div>
+			<div class="help_container" id="help_container" style="display:none">
+				{% if page=="plan" %}
+					<script type="text/javascript">helpTagMarginLeft("2")</script>
+					{% include 'includes/help_plan.html' %}
+				{% elif page=="do" %}
+					<script type="text/javascript">helpTagMarginLeft("120")</script>
+					{% include 'includes/help_do.html' %}
+				{% elif page=="record" %}
+					<script type="text/javascript">helpTagMarginLeft("210")</script>
+					{% include 'includes/help_record.html' %}
+				{% elif page=="review" %}
+					<script type="text/javascript">helpTagMarginLeft("378")</script>
+					{% include 'includes/help_review.html' %}
+				{% elif page=="profile" %}
+					<script type="text/javascript">helpTagMarginLeft("2")</script>
+					{% include 'includes/help_profile.html' %}
+				{% elif page=="suggestions" %}
+					<script type="text/javascript">helpTagMarginRight("175")</script>
+					{% include 'includes/help_suggestions.html' %}
+				{% endif %}
+			</div>
+		</div>
+		{% endif %}

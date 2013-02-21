@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Register | pdapp</title>
+		{% include 'includes/header.html' %}
+		<div id='content'>
+			<b>{{firstname}}</b>, read the following details then if you agree, click agree below to <b>register with pdapp.</b><br><br>
+			<div>
+				<b>Cookies</b> - This site uses the LinkedIn API to authenticate you when you arrive at the site. Once you have been authenticated by LinkedIn,
+				 this site will create a cookie in order to keep you logged in as you browse the pages of this site. The cookie will stay active
+				 until you close your browser sesion. The cookie is not used to store any personal information or to track you anywhere else. Its a good cookie.
+			</div>
+			<form id="user_details_form" method="post" style="">
+				<br><button type='submit' name='agree' value='agree'>I agree</button>
+				<input type="hidden" name="firstName" value="{{firstname}}" style="display:none"/><br>
+				<input type="hidden" name="lastName" value="{{lastname}}" style="display:none"/><br>
+				<input type="hidden" name="memberId" value="{{memberid}}" style="display:none"/><br>
+				<input type="hidden" name="pictureUrl" value="{{pictureurl}}" style="display:none"/><br>
+				<input type="hidden" name="emailAddress" value="{{email}}" style="display:none"/><br>
+				
+			</form>
+		</div>
+	</body>
+</html>
